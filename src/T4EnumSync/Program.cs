@@ -23,17 +23,22 @@ namespace T4EnumSync
         {
             using (var db = GetConnection())
             {
-                var sqlCommand = new SqlCommand("SELECT VehicleID, Owner, VehicleType, VehicleColor FROM [Vehicle]", db);
+                var sqlCommand = new SqlCommand(
+                    "SELECT VehicleID, Owner, VehicleTypeID, ColorID FROM [Vehicle]", db);
+
                 var reader = sqlCommand.ExecuteReader();
 
                 while (reader.NextResult())
                 {
+                    //construct our vehicle object
                     yield return new Vehicle()
                     {
-                        VehicleColor = (Color)2, //normally this would be exactly the type of dangerous operation
-                        Type = (VehicleType)1,
-                        Owner = "",
-                        VehicleID = 1
+                        VehicleID = (int)reader["VehicleID"],
+                        Owner = (string)reader["Owner"],
+
+                        //very dangerous assumption made here, that int values will always stay aligned with the enum values
+                        Type = (VehicleType)reader["VehicleTypeID"],
+                        VehicleColor = (Color)reader["ColorID"]
                     };
                 }
 
