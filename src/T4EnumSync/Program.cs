@@ -57,12 +57,13 @@ namespace T4EnumSync
             //our business logic will be a validator to ensure that white motorcycles aren't present in the database. They're kind of lame so we don't want them.
             foreach (var vehicle in GetAllVehicles())
                 if (vehicle.VehicleColor == Color.White && vehicle.Type == VehicleType.MotorCycle) //this is the type of logic thsat we want to protect ourselves against
-                    warnFlag = true;
+                {
+                    Console.WriteLine("There is a white motorcycle owned by {0} with ID: '{1}' - I suggest deleting it.",
+                        vehicle.Owner, vehicle.VehicleID);
+                }
 
-            if (warnFlag)
-                Console.WriteLine("At least one really lame motorcycle was detected in the database!");
-            else
-                Console.WriteLine("No lame vehicles detected.");
+            if (!warnFlag)
+                Console.WriteLine("Excellent. No lame vehicles were detected in the database...");
 
             Console.ReadLine();
 
