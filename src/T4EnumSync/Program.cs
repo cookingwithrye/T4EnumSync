@@ -8,13 +8,66 @@ namespace T4EnumSync
 {
     class Program
     {
+        /// <summary>
+        /// Open a db connection
+        /// </summary>
+        static SqlConnection GetConnection()
+        {
+            return new SqlConnection("T4EnumSyncDB");
+        }
+
+        /// <summary>
+        /// Retrieve all vehicle objects from the database
+        /// </summary>
+        static IEnumerable<Vehicle> GetAllVehicles()
+        {
+            using (var db = GetConnection())
+            {
+                var sqlCommand = new SqlCommand("SELECT VehicleID, Owner, VehicleType, VehicleColor FROM [Vehicle]", db);
+                var reader = sqlCommand.ExecuteReader();
+
+                while (reader.NextResult())
+                {
+                    yield return new Vehicle()
+                    {
+                        VehicleColor = (Color)2, //normally this would be exactly the type of dangerous operation
+                        Type = (VehicleType)1,
+                        Owner = "",
+                        VehicleID = 1
+                    };
+                }
+
+            }
+        }
+
+        /// <summary>
+        /// Perform a sanity check that the enum names and underlying values have corresponding entries in the database
+        /// </summary>
+        static void SanityCheck()
+        {
+            
+        }
+        
         static void Main(string[] args)
         {
-            //our business logic will be a validator to ensure that white motorcycles aren't present in the database. They're kind of lame so we don't want them.
+            SanityCheck();
             
-            //but wait, what if a new color is added and we want special logic for it? Do we update both the enum?
+            bool warnFlag = false;
+            
+            //our business logic will be a validator to ensure that white motorcycles aren't present in the database. They're kind of lame so we don't want them.
+            foreach (var vehicle in GetAllVehicles())
+                if (vehicle.VehicleColor == Color.White && vehicle.Type == VehicleType.MotorCycle) //this is the type of logic thsat we want to protect ourselves against
+                    warnFlag = true;
 
-            //we can also have logic to verify at runtime that the enums have corresponding table values in the server as a sanity check
+            if (warnFlag)
+                Console.WriteLine("At least one really lame motorcycle was detected in the database!");
+            else
+                Console.WriteLine("No lame vehicles detected.");
+
+            Console.ReadLine();
+
+            //additional scenario - if we drop the 'White' color and then recreate it, it will have a new id which wasn't accounted for in our enum.
+            //no compile-time exception would be thrown, and we'd potentially be left with a runtime error
         }
     }
 }

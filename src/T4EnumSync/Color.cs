@@ -11,11 +11,4 @@ namespace T4EnumSync
         Blue,
         White
     }
-
-    public enum VehicleType : int
-    {
-        Truck = 1,
-        Car,
-        MotorCycle
-    }
 }
