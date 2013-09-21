@@ -1,0 +1,28 @@
+<#@ output extension=".cs" #>
+<#
+    var ConnectionString = ConfigurationManager.ConnectionStrings["T4EnumSyncDB"].ConnectionString;
+#>
+namespace T4EnumSync 
+{
+	public enum Color : int
+	{
+		<#
+			using (var db = new SqlConnection(ConnectionString) 
+			{
+				var sqlCommand = new SqlCommand("SELECT ColorID, ColorName FROM [Color]", db);
+				
+				var reader = sqlCommand.ExecuteReader();
+				
+				while (reader.ReadNext())
+				{
+					<text>reader["ColorName"]</text> = <text>reader["ColorID"]</text>,
+				}
+			}
+		#>
+	}
+	
+	public enum VehicleType : int
+	{
+	
+	}
+}

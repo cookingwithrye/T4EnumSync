@@ -1,0 +1,26 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ output extension=".cs" #>
+<#@ assembly name="System.Data" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Data.SqlClient" #>
+
+namespace T4EnumSync
+{
+	public enum Color : int
+	{
+		<# 
+			using (var db = new SqlConnection(@"Data Source=.\SQLEXPRESS;Initial Catalog=T4EnumSync;Integrated Security=True")) 
+			{
+				var sqlCommand = new SqlCommand("SELECT ColorName, ColorID FROM [Color]", db);
+		
+				db.Open();
+				var reader = sqlCommand.ExecuteReader();
+			
+				while (reader.Read())
+				{
+					WriteLine(String.Format("{0} = {1},", (string)reader["ColorName"], (int)reader["ColorID"]));
+				}
+			}		
+		#>
+	}
+}
