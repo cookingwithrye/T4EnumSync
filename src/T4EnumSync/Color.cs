@@ -5,7 +5,7 @@ using System.Text;
 
 namespace T4EnumSync
 {
-    public enum Color : int
+    public enum _Color : int
     {
         Red = 1,
         Blue,
