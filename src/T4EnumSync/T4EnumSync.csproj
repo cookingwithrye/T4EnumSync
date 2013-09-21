@@ -45,10 +45,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Color.cs" />
-    <Compile Include="ColorGenerated.cs">
+    <Compile Include="EnumsGenerated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>ColorGenerated.tt</DependentUpon>
+      <DependentUpon>EnumsGenerated.tt</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -57,9 +57,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="ColorGenerated.tt">
+    <None Include="EnumsGenerated.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>ColorGenerated.cs</LastGenOutput>
+      <LastGenOutput>EnumsGenerated.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>

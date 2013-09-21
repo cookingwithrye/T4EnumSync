@@ -26,9 +26,10 @@ namespace T4EnumSync
                 var sqlCommand = new SqlCommand(
                     "SELECT VehicleID, Owner, VehicleTypeID, ColorID FROM [Vehicle]", db);
 
+                db.Open();
                 var reader = sqlCommand.ExecuteReader();
 
-                while (reader.NextResult())
+                while (reader.Read())
                 {
                     //construct our vehicle object
                     yield return new Vehicle()
