@@ -36,7 +36,7 @@ namespace T4EnumSync
                     yield return new Vehicle()
                     {
                         VehicleID = (int)reader["VehicleID"],
-                        Owner = (string)reader["Owner"],
+                        Owner = (string)reader["OwnerName"],
 
                         //very dangerous assumption made here, that int values will always stay aligned with the enum values
                         Type = (VehicleType)reader["VehicleTypeID"],
@@ -56,6 +56,7 @@ namespace T4EnumSync
                 {
                     Console.WriteLine("There is a white motorcycle owned by {0} with ID: '{1}' - I suggest deleting it.",
                         vehicle.Owner, vehicle.VehicleID);
+                    warnFlag = true;
                 }
 
             if (!warnFlag)
