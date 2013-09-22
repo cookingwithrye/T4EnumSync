@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data.SqlClient;
+using System.Configuration;
 
 namespace T4EnumSync
 {
@@ -13,7 +14,7 @@ namespace T4EnumSync
         /// </summary>
         static SqlConnection GetConnection()
         {
-            return new SqlConnection("T4EnumSyncDB");
+            return new SqlConnection(ConfigurationManager.ConnectionStrings["T4EnumSyncDB"].ConnectionString);
         }
 
         /// <summary>
@@ -24,7 +25,7 @@ namespace T4EnumSync
             using (var db = GetConnection())
             {
                 var sqlCommand = new SqlCommand(
-                    "SELECT VehicleID, Owner, VehicleTypeID, ColorID FROM [Vehicle]", db);
+                    "SELECT VehicleID, OwnerName, VehicleTypeID, ColorID FROM [Vehicle]", db);
 
                 db.Open();
                 var reader = sqlCommand.ExecuteReader();
