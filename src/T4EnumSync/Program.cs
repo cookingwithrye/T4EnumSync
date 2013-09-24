@@ -25,7 +25,7 @@ namespace T4EnumSync
             using (var db = GetConnection())
             {
                 var sqlCommand = new SqlCommand(
-                    "SELECT VehicleID, OwnerName, VehicleTypeID, ColorID FROM [Vehicle]", db);
+                    "SELECT VehicleID, OwnerName, ColorID FROM [Vehicle]", db);
 
                 db.Open();
                 var reader = sqlCommand.ExecuteReader();
@@ -39,7 +39,6 @@ namespace T4EnumSync
                         Owner = (string)reader["OwnerName"],
 
                         //very dangerous assumption made here, that int values will always stay aligned with the enum values
-                        Type = (VehicleType)reader["VehicleTypeID"],
                         VehicleColor = (Color)reader["ColorID"]
                     };
                 }
@@ -50,17 +49,17 @@ namespace T4EnumSync
         {
             bool warnFlag = false;
 
-            //our business logic will be a validator to ensure that white motorcycles aren't present in the database. They're kind of lame so we don't want them.
+            //our business logic will be a validator to ensure that white vehicles aren't present in the database.
             foreach (var vehicle in GetAllVehicles())
-                if (vehicle.VehicleColor == Color.White && vehicle.Type == VehicleType.MotorCycle) //this is the type of logic thsat we want to protect ourselves against
+                if (vehicle.VehicleColor == Color.White) //this is the type of logic thsat we want to protect ourselves against constant changes
                 {
-                    Console.WriteLine("There is a white motorcycle owned by {0} with ID: '{1}' - I suggest deleting it.",
+                    Console.WriteLine("There is a white vehicle owned by {0} with ID: '{1}' - I suggest deleting it.",
                         vehicle.Owner, vehicle.VehicleID);
                     warnFlag = true;
                 }
 
             if (!warnFlag)
-                Console.WriteLine("Excellent. No lame vehicles were detected in the database...");
+                Console.WriteLine("Excellent. No white vehicles were detected in the database...");
 
             Console.ReadLine();
         }

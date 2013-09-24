@@ -10,7 +10,6 @@ namespace T4EnumSync
         public int VehicleID { get; set; }
 
         public Color VehicleColor { get; set; }
-        public VehicleType Type { get; set; }
 
         public string Owner { get; set; }
     }
