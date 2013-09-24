@@ -61,6 +61,10 @@ namespace T4EnumSync
             if (!warnFlag)
                 Console.WriteLine("Excellent. No white vehicles were detected in the database...");
 
+            //step 2: advantage of doing this when we want to add a new color to the database, and we get to reference it as strongly-typed
+
+            //step 3: creation of a sanity check to ensure that all the enum values are actually available inside the database
+
             Console.ReadLine();
         }
     }
